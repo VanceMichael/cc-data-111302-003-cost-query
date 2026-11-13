@@ -1,0 +1,55 @@
+{
+  "capabilityVersion": 1,
+  "fields": {
+    "name": 1,
+    "organization": 2,
+    "history": 6,
+    "contact": 3
+  },
+  "entities": [
+    {
+      "id": "p1",
+      "name": "甲",
+      "organization": "org1",
+      "history": [
+        "h1"
+      ],
+      "contact": "a@example.test"
+    },
+    {
+      "id": "p2",
+      "name": "乙",
+      "organization": "org1",
+      "history": [
+        "h2"
+      ],
+      "contact": "b@example.test"
+    }
+  ],
+  "receipts": [],
+  "deniedFields": [],
+  "dependencies": {
+    "history": [
+      "name"
+    ]
+  },
+  "incompatible": [
+    [
+      "history",
+      "contact"
+    ]
+  ],
+  "roles": {
+    "reader": [
+      "name",
+      "organization",
+      "history"
+    ],
+    "admin": [
+      "name",
+      "organization",
+      "history",
+      "contact"
+    ]
+  }
+}
