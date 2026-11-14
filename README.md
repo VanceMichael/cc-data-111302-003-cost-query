@@ -13,7 +13,7 @@ npm test
 npm start
 ```
 
-`npm start` 在标准输出报告来源地址。默认绑定本机回环地址并使用动态端口；可通过 `HOST` 与 `PORT` 指定监听地址和端口，例如 `HOST=127.0.0.1 PORT=8080 npm start`。按 Ctrl+C 关闭来源；动态端口避免与同机其他接入站冲突。`npm run demo` 在同一进程启动来源，读取一次目录后退出，不代表持续接收业务已经完成。
+`npm start` 在标准输出报告来源地址。默认绑定本机回环地址并使用动态端口；可通过 `HOST` 与 `PORT` 指定监听地址和端口，例如 `HOST=127.0.0.1 PORT=8080 npm start`。按 Ctrl+C 关闭来源；动态端口避免与同机其他接入站冲突。`npm run demo` 在同一进程启动来源，读取一次目录后退出，不代表持续接收业务已经完成。`npm run demo:collect` 演示按采集目标组织请求的规划层：两种角色、不同预算下的取舍，以及代价变动、能力版本迁移、中止与恢复。
 
 ```sh
 docker build -t cost-query:local .
@@ -26,9 +26,16 @@ docker run --rm --network none cost-query:local npm run demo
 ## 目录
 
 - `src/source.mjs`：本地来源生命周期与HTTP入口。
-- `src/client.mjs`：目录读取及原始字节获取。
+- `src/client.mjs`：目录读取、原始字节获取、能力表读取与按字段查询。
+- `src/planner.mjs`：按采集目标组织请求的纯函数规划层，计划发送前可解释。
+- `src/cache.mjs`：按授权角色与能力版本键控的结果复用缓存。
+- `src/collect.mjs`：可中止、可恢复的采集作业，按回执真实扣减预算。
+- `src/collect-demo.mjs`：两种角色与不同预算下的采集取舍演示。
 - `fixtures/source.json`：来源初始状态。
 - `docs/source-contract.md`：来源协议范围、控制与领域语义。
+- `docs/collection-planning.md`：采集规划层设计：计划产物、重规划与停止条件。
 - `test/source.test.mjs`：实际来源集成测试。
+- `test/planner.test.mjs`：规划层纯函数测试。
+- `test/collect.test.mjs`：采集作业集成测试。
 
 运行时状态仅用于来源模拟，重启来源会回到 fixtures 中的值。接入业务自己的持久状态请使用 `.local/` 或明确的外部路径。来源管理入口 `/state` 和 `/control` 是本地操作设施，不能作为绕过浏览器页面的业务写入捷径。
